@@ -12,13 +12,28 @@ class TC_TicTacToe < Test::Unit::TestCase
   def test_empty_grid
     assert_equal false, @game.over?
   end
-  
+    
   def test_full_grid_draw
-    (1..9).each do |cell|
-      symbol = cell.odd? ? 'X' : 'O'
-      @game.place(cell, symbol)
-    end
-    assert_equal true, @game.over?
+    [1, 2, 6, 7, 8].each { |square| @game.place(square, 'o') }
+    [3, 4, 5, 9].each    { |square| @game.place(square, 'x') }
+    
+    assert_equal true,  @game.over?
+    assert_equal false, @game.has_winner?
+  end
+  
+  def test_horizontal_win
+    [1, 2, 3].each { |square| @game.place(square, 'o') }
+    assert_equal true, @game.has_winner?
+  end
+  
+  def test_vertical_win
+    [1, 4, 7].each { |square| @game.place(square, 'o') }
+    assert_equal true, @game.has_winner?
+  end
+  
+  def test_diagonal_win
+    [1, 5, 9].each { |square| @game.place(square, 'o') }
+    assert_equal true, @game.has_winner?
   end
   
   # def test_unique_symbol
